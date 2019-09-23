@@ -1,0 +1,25 @@
+{
+  "name": "http-stat",
+  "version": "1.0.0",
+  "description": "Http Status and Ping Checker MicroService",
+  "main": "app.js",
+  "scripts": {
+    "start": "node ./src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rajdeep Das",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "ping": "^0.2.2",
+    "request": "^2.88.0",
+    "rethinkdb": "^2.3.3",
+    "rethinkdb-pool": "^1.1.0",
+    "simple-node-logger": "^18.12.23"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.2"
+  }
+}

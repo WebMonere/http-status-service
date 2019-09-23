@@ -1,0 +1,12 @@
+uid --> PrimaryKey
+statusCode
+statusMessage
+responseTime
+status
+specialMessage
+serverStatus
+appStatus
+url
+
+
+r.db('UrlStatus').table('urlstat').get('6')
