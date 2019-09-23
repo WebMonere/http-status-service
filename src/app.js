@@ -27,7 +27,7 @@ dotenv.config();
 // create a custom timestamp format for log statements
 const SimpleNodeLogger = require('simple-node-logger'),
     opts = {
-        logFilePath:'./logs/app.log',
+        logFilePath:'app.log',
         timestampFormat:'YYYY-MM-DD HH:mm:ss.SSS'
     },
 log = SimpleNodeLogger.createSimpleLogger( opts );
