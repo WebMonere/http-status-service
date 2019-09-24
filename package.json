@@ -4,7 +4,7 @@
   "description": "Http Status and Ping Checker MicroService",
   "main": "app.js",
   "scripts": {
-    "start": "node ./src/app.js",
+    "start": "node ./src/app.js"
   },
   "author": "Rajdeep Das",
   "license": "ISC",
