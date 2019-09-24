@@ -1,4 +1,7 @@
+[![Build Status](https://travis-ci.com/WebMonere/http-status-service.svg?branch=master)](https://travis-ci.com/WebMonere/http-status-service)
+
 "# http-status-service" 
+
 ## Dependencies
 To Run Rethink db service
 
