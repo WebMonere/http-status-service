@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.com/WebMonere/http-status-service.svg?branch=master)](https://travis-ci.com/WebMonere/http-status-service)
+![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/rajdeepdas/http-status-service)
+![node](https://img.shields.io/node/v/express)
 
 "# http-status-service" 
 
