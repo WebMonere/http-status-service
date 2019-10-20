@@ -7,10 +7,19 @@ const dotenv = require('dotenv');
 
 var ping = require('ping');
 
+// Rabit MQ Message Queue
+var amqp = require('amqplib/callback_api');
+// Message Queue Config
+
+var messgaeQueueName= process.env.MESSAGE_QUEUE_NAME || 'main_notification_queue'
+var messageQueueURL = process.env.MESSAGE_QUEUE_URl ||  'amqp://localhost'
+
 //DB Config Load
 var dbHost = process.env.DBHOST || 'localhost'
 var dbPort = process.env.DBPORT || 28015
 var dbName = process.env.DBNAME || 'UrlStatus'
+
+//connecto to message queue
 
 
 var r = require('rethinkdb')
@@ -48,6 +57,7 @@ var port = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
     res.send({"info":"http Status Checking Service"});
+   
 })
 
 
@@ -144,6 +154,19 @@ function httpstat(url, urlid) {
                 statcode = response.statusCode;
                 statmsg = response.statusMessage;
                 appStat = DOWN;
+
+                // Create Message Object
+                var userMessage = {
+                    'urlId':urlid,
+                    "url":url,
+                   'statusCode':statcode,
+                   'statusMessage':statmsg,
+                   'appStatus':appStat
+                }
+                console.log(userMessage)
+                // send to message queue
+                connectToMessageQueue(userMessage);
+
             }else{
             //TODO: Save Status Code and Stats Messgae in DB Queue or Call the DB MicroService
             console.log("Calling DB MicroService or DB Queue");
@@ -198,5 +221,30 @@ function httpstat(url, urlid) {
 
 
     });
+}
+
+/* ------------------------- Queue Service --------------------------------------- */
+function connectToMessageQueue(message)
+{
+    amqp.connect(messageQueueURL, function(error0, connection) {
+  if (error0) {
+    throw error0;
+  }
+  connection.createChannel(function(error1, channel) {
+    if (error1) {
+      throw error1;
+    }
+    var queue = messgaeQueueName;
+    var msg = JSON.stringify(message);
+
+    channel.assertQueue(queue, {
+      durable: false
+    });
+
+    channel.sendToQueue(queue, Buffer.from(msg));
+    console.log(" [x] Sent %s", msg);
+    
+  });
+});
 }
 
