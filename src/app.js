@@ -14,7 +14,7 @@ var amqp = require('amqplib/callback_api');
 var messgaeQueueName= process.env.MESSAGE_QUEUE_NAME || 'main_notification_queue'
 var messageQueueURL = process.env.MESSAGE_QUEUE_URl ||  'amqp://localhost'
 
-//DB Config Load
+//RethinkDB Config Load
 var dbHost = process.env.DBHOST || 'localhost'
 var dbPort = process.env.DBPORT || 28015
 var dbName = process.env.DBNAME || 'UrlStatus'
@@ -159,9 +159,9 @@ function httpstat(url, urlid) {
                 var userMessage = {
                     'urlId':urlid,
                     "url":url,
-                   'statusCode':statcode,
-                   'statusMessage':statmsg,
-                   'appStatus':appStat
+                    'statusCode':statcode,
+                    'statusMessage':statmsg,
+                    'appStatus':appStat
                 }
                 console.log(userMessage)
                 // send to message queue
@@ -189,6 +189,7 @@ function httpstat(url, urlid) {
              if (list == null) {
                  //Save to DB
                  var query = r.table('urlstat').insert({
+                     timestamp: new Date(),
                      uid: urlid,
                      url:url,
                      statusCode: statcode,
@@ -206,7 +207,8 @@ function httpstat(url, urlid) {
                  });
              }else{
                  var query = r.table('urlstat').filter({uid:urlid}).update({
-                    url:url,
+                    timestamp: new Date(),
+                     url:url,
                      statusCode: statcode,
                      statusMessage: statmsg,
                      responseTime: resTime,
